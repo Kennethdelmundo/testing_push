@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Layout</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: #1F2336;
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+        }
+        .font-black {
+            font-weight: 900;
+        }
+        .progress {
+            position: relative;
+            margin: 4px auto;
+            text-align: center;
+            width: 180px;
+            height: 90px;
+        }
+        .barOverflow {
+            position: relative;
+            overflow: hidden;
+            width: 180px;
+            height: 90px;
+            margin-bottom: -14px;
+        }
+        .bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            box-sizing: border-box;
+            border: 10px solid #eee;
+            border-bottom-color: #0bf;
+            border-right-color: #0bf;
+        }
+        @media (max-width: 768px) {
+            .progress {
+                width: 140px;
+                height: 70px;
+            }
+            .barOverflow {
+                width: 140px;
+                height: 70px;
+            }
+            .bar {
+                width: 140px;
+                height: 140px;
+            }
+        }
+        
+        /* Card Animations */
+        .card-animate {
+            transition: all 0.3s ease;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .card-animate:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Staggered Animation Delay */
+        .card-animate:nth-child(1) { animation-delay: 0.1s; }
+        .card-animate:nth-child(2) { animation-delay: 0.2s; }
+        .card-animate:nth-child(3) { animation-delay: 0.3s; }
+    </style>
+    <script>
+        function updateDateTime() {
+            const now = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+            const dateTimeString = now.toLocaleDateString('en-US', options);
+            document.getElementById('dateTime').textContent = dateTimeString;
+        }
+        setInterval(updateDateTime, 1000);
+    </script>
+    <!-- Add Heroicons -->
+    <script src="https://unpkg.com/@heroicons/v1/outline/index.js"></script>
+</head>
+<body class="bg-gray-100 p-3 md:p-6" style="background-color: #1F2336;">
+    <div class="container mx-auto px-2 md:px-5 relative">
+        <!-- Project Title -->
+        <div class="text-white text-2xl md:text-4xl font-bold mb-2">Wave Energy</div>
+        <!-- Real-time Date and Time -->
+        <div id="dateTime" class="text-white text-sm md:text-xl mb-4"></div>
+        <!-- View Table Button -->
+        <a href="viewTable.html" class="absolute top-2 right-2 md:right-5">
+            <button class="bg-gray-700 hover:bg-gray-600 text-white text-sm md:text-lg font-semibold py-2 md:py-3 px-3 md:px-6 rounded-lg inline-flex items-center transition duration-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-6 md:w-6 mr-2 md:mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+                View Table
+            </button>
+        </a>
+    </div>
+    <div class="container mx-auto px-2 md:px-5 flex justify-center">
+        <div class="w-full md:w-4/5">
+            <!-- 1st row with 2 cards -->
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-4">
+                <div class="card-animate text-white p-2 rounded-lg shadow-lg h-28 md:h-36 md:col-span-2 flex flex-col justify-between" style="background-color: #499DCC;">
+                    <div class="text-sm md:text-base">Wind Speed</div>
+                    <div class="text-center text-3xl md:text-5xl my-auto font-black" id="wind-speed">Loading...</div>
+                </div>
+                <div class="card-animate text-white p-2 rounded-lg shadow-lg h-28 md:h-36 md:col-span-3 flex flex-col justify-between" style="background-color: #499DCC;">
+                    <div class="text-sm md:text-base">Wave Length</div>
+                    <div class="text-center text-3xl md:text-5xl my-auto font-black" id="wave-length-value">Loading...</div>
+                </div>
+            </div>
+            <!-- 2nd row label -->
+            <div class="text-white text-xl md:text-2xl font-semibold mb-2">Oscillating Water Column</div>
+            <!-- 2nd row with 3 cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <div class="card-animate p-2 rounded-lg shadow-lg h-28 md:h-32 flex flex-col justify-between" style="background-color: #97C03F; color: #FEEF69;">
+                    <div class="text-sm md:text-base">Generated Voltage</div>
+                    <div class="text-center text-3xl md:text-5xl my-auto font-black" id="owc-voltage">Loading...</div>
+                </div>
+                <div class="card-animate p-2 rounded-lg shadow-lg h-28 md:h-32 flex flex-col justify-between" style="background-color: #97C03F; color: #FEEF69;">
+                    <div class="text-sm md:text-base">Generated Current</div>
+                    <div class="text-center text-3xl md:text-5xl my-auto font-black" id="owc-current">Loading...</div>
+                </div>
+                <div class="card-animate p-2 rounded-lg shadow-lg h-28 md:h-32 flex flex-col justify-between" style="background-color: #97C03F; color: #FEEF69;">
+                    <div class="text-sm md:text-base">Charging Current</div>
+                    <div class="text-center text-3xl md:text-5xl my-auto font-black" id="owc-charging">Loading...</div>
+                </div>
+            </div>
+            <!-- 3rd row label -->
+            <div class="text-white text-xl md:text-2xl font-semibold mb-2">Two Point Absorber</div>
+            <!-- 3rd row with 3 cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <div class="card-animate text-white p-2 rounded-lg shadow-lg h-28 md:h-32 flex flex-col justify-between" style="background-color: #E7876E; color: #FBF397;">
+                    <div class="text-sm md:text-base">Generated Voltage</div>
+                    <div class="text-center text-3xl md:text-5xl my-auto font-black" id ="fpa-voltage">Loading...</div>
+                </div>
+                <div class="card-animate text-white p-2 rounded-lg shadow-lg h-28 md:h-32 flex flex-col justify-between" style="background-color: #E7876E; color: #FBF397;">
+                    <div class="text-sm md:text-base">Generated Current</div>
+                    <div class="text-center text-3xl md:text-5xl my-auto font-black" id = "fpa-current">Loading...</div>
+                </div>
+                <div class="card-animate text-white p-2 rounded-lg shadow-lg h-28 md:h-32 flex flex-col justify-between" style="background-color: #E7876E; color: #FBF397;">
+                    <div class="text-sm md:text-base">Charging Current</div>
+                    <div class="text-center text-3xl md:text-5xl my-auto font-black" id ="fpa-charging">Loading...</div>
+                </div>
+            </div>
+            <!-- 4th row with 2 cards -->
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+                <div class="card-animate text-white p-2 rounded-lg shadow-lg h-28 md:h-36 md:col-span-3 flex flex-col justify-center items-center" style="background-color: #8D72EF;">
+                    <div class="progress">
+                        <div class="barOverflow">
+                            <div class="bar"></div>
+                        </div>
+                        <span class=" text-4xl mb-auto font-black" id="battery-voltage">Loading...</span>%
+                    </div>
+                </div>
+                <div class="card-animate text-white p-2 rounded-lg shadow-lg h-28 md:h-36 md:col-span-2 flex flex-col justify-between" style="background-color: #8D72EF;">
+                    <div class="text-sm md:text-base">Hybrid Charging Current</div>
+                    <div class="text-center text-3xl md:text-5xl my-auto font-black" id="hybrid-charging">Loading...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- Battery -->
+<script>
+    $(".progress").each(function(){
+        var $bar = $(this).find(".bar");
+        var $val = $(this).find("span");
+        var perc = parseInt($val.text(), 10);
+
+        $({p:0}).animate({p:perc}, {
+            duration: 3000,
+            easing: "swing",
+            step: function(p) {
+                $bar.css({
+                    transform: "rotate("+ (45+(p*1.8)) +"deg)", // 100%=180° so: ° = % * 1.8
+                    // 45 is to add the needed rotation to have the green borders at the bottom
+                });
+                $val.text(p|0);
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

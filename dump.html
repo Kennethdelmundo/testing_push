@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <title>Project Dashboard</title>
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #1F2336;
+            color: white;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        h4 {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        h5 {
+            font-size: 0.9rem;
+            margin-left: 10px;
+            margin-top: 10px;
+            font-weight: 500;
+        }
+
+        .card {
+            background-color: #8D72EF;
+            border-radius: 10px;
+            border: none;
+            position: relative;
+            margin-bottom: 30px;
+            height: 150px; / Increased height for better visibility /
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); / Added shadow /
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); / Enhanced shadow on hover /
+        }
+
+        .card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center; / Centers text vertically /
+            text-align: center;
+            height: 130px; / Increased height for better visibility /
+        }
+
+        .card-wind-speed {
+            position: relative;
+            text-align: center;
+            background-color: #4A90E2; 
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+            height: 90%; / Make the card take the full height of its container /
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); / Added shadow /
+        }
+
+        .wind-wave-values {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-top: 10px;
+            position: relative;  / Ensures text stays inside the card /
+            z-index: 1; / Makes sure text stays visible /
+        }
+
+
+        .card-value {
+            font-weight: bold;
+            font-size: 2.5rem;
+            display: block;
+            margin-top: 10px;
+        }
+
+        .wind-wave-values {
+            font-size: 1.5rem; / Increased font size /
+        }
+
+        .card-value-green {
+            color: #FEEF69;
+        }
+
+        .card-value-red {
+            color: #FBF397;
+        }
+
+        .card i {
+            font-size: 1.5rem;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .card h5 {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            margin: 0;
+        }
+
+        .card-wind-speed i {
+            font-size: 2rem;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .card-wind-speed h5 {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            margin: 0;
+        }
+
+        .view-table-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #4A90E2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .view-table-btn:hover {
+            background-color: #357ABD;
+        }
+
+        .view-table-btn i {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+
+<body>    
+    <!-- Main -->
+    <div class="container mt-5 position-relative">
+
+        <!-- Header -->
+        <div class="text-center">
+            <h1>Project Dashboard</h1>
+            <button class="view-table-btn" onclick="window.location.href='viewTable.html'">
+                <i class="fas fa-table"></i> View Table
+            </button>
+        </div>
+
+        <!-- Content -->
+        <div class="container mt-3">
+            <div class="text-center">
+                <p><span id="datetime"></span></p>
+            </div>
+
+            <!-- Wind Speed and Wave Length -->
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <div class="card" style="background-color: #4A90E2;">
+                        <i class="fas fa-wind"></i>
+                        <h5>Wind Speed</h5>
+                        <div class="card-value" id="wind-speed">Loading...</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card" style="background-color: #4A90E2;">
+                        <i class="fas fa-water"></i>
+                        <h5>Wave Length</h5>
+                        <div class="card-value" id="wave-length-value">Loading...</</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 1st Row Sensor Values -->
+            <div class="row">
+                <!-- OWC and TPA -->
+                <div class="col-md-12">
+                    <!-- OWC -->
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <h4>Oscillating Water Column</h4>
+                            <hr>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card" style="background-color: #97C03F;">
+                                <i class="fas fa-bolt"></i>
+                                <h5>Generated Voltage</h5>
+                                <div class="card-value card-value-green" id="owc-voltage">Loading...</</div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="card" style="background-color: #97C03F;">
+                                <i class="fas fa-tachometer-alt"></i>
+                                <h5>Generated Current</h5>
+                                <div class="card-value card-value-green" id="owc-current">Loading...</</div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="card" style="background-color: #97C03F;">
+                                <i class="fas fa-charging-station"></i>
+                                <h5>Charging Current</h5>
+                                <div class="card-value card-value-green" id="owc-charging">Loading...</</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TPA -->
+                    <div class="row">
+                        <div class="col-12">
+                            <h4>Two Point Absorber</h4>
+                            <hr>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card" style="background-color: #E7876E;">
+                                <i class="fas fa-bolt"></i>
+                                <h5>Generated Voltage</h5>
+                                <div class="card-value card-value-red" id="fpa-voltage">Loading...</</div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="card" style="background-color: #E7876E;">
+                                <i class="fas fa-tachometer-alt"></i>
+                                <h5>Generated Current</h5>
+                                <div class="card-value card-value-red" id="fpa-current">Loading...</</div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="card" style="background-color: #E7876E;">
+                                <i class="fas fa-charging-station"></i>
+                                <h5>Charging Current</h5>
+                                <div class="card-value card-value-red" id="fpa-charging">Loading...</</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Container for Battery Voltage and Hybrid Charging Current -->
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card" style="background-color: #5764E4;">
+                    <i class="fas fa-battery-full"></i>
+                    <h5>Battery Voltage</h5>
+                    <div class="card-value" id="battery-voltage">Loading...</</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card" style="background-color: #5764E4;">
+                    <i class="fas fa-plug"></i>
+                    <h5>Hybrid Charging Current</h5>
+                    <div class="card-value" id="hybrid-charging">Loading...</</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+        <p>&copy; 2025 Project Dashboard. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

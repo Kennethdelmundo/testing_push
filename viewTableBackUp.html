@@ -1,0 +1,99 @@
+<?php
+include 'dbconn.php';
+
+// Fetch data in descending order
+$query = "SELECT id, OWCGeneratedVoltage, OWCGeneratedCurrent, FPAGeneratedVoltage, FPAGeneratedCurrent, 
+          OWCChargingCurrent, FPAChargingCurrent, HybridChargingCurrent, BatteryVoltage, WindSpeed, Wavelength, dateTime 
+          FROM tbl_waveEnergy ORDER BY dateTime DESC";
+
+$result = mysqli_query($conn, $query);
+mysqli_close($conn);
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Table</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+</head>
+
+<body class="bg-gray-900 text-white font-sans" style="width:100%;">
+
+    <div class="container mx-auto mt-8 p-6">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-3xl font-bold">Wave Energy Data</h1>
+            <a href="index.php" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-md">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </a>
+        </div>
+
+        <div class="bg-gray-800 p-6 rounded-lg shadow-lg overflow-x-auto">
+            <table id="myDataTable" class="min-w-full table-auto border-collapse border border-gray-700">
+                <thead class="bg-gray-700 text-white">
+                    <tr>
+                        <th class="border border-gray-600 px-4 py-2">ID</th>
+                        <th class="border border-gray-600 px-4 py-2">OWC Voltage</th>
+                        <th class="border border-gray-600 px-4 py-2">OWC Current</th>
+                        <th class="border border-gray-600 px-4 py-2">FPA Voltage</th>
+                        <th class="border border-gray-600 px-4 py-2">FPA Current</th>
+                        <th class="border border-gray-600 px-4 py-2">OWC Charging</th>
+                        <th class="border border-gray-600 px-4 py-2">FPA Charging</th>
+                        <th class="border border-gray-600 px-4 py-2">Hybrid Charging</th>
+                        <th class="border border-gray-600 px-4 py-2">Battery Voltage</th>
+                        <th class="border border-gray-600 px-4 py-2">Wind Speed</th>
+                        <th class="border border-gray-600 px-4 py-2">Wavelength</th>
+                        <th class="border border-gray-600 px-4 py-2">Date Time</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-gray-900 text-gray-300">
+                    
+                    <?php 
+                    $newId = 0;
+                    while ($row = mysqli_fetch_assoc($result)) : ?>
+                        <tr class="border border-gray-700">
+                            <td class="border border-gray-600 px-4 py-2"><?= ++$newId ?></td>
+                            <td class="border border-gray-600 px-4 py-2"><?= $row['OWCGeneratedVoltage'] ?></td>
+                            <td class="border border-gray-600 px-4 py-2"><?= $row['OWCGeneratedCurrent'] ?></td>
+                            <td class="border border-gray-600 px-4 py-2"><?= $row['FPAGeneratedVoltage'] ?></td>
+                            <td class="border border-gray-600 px-4 py-2"><?= $row['FPAGeneratedCurrent'] ?></td>
+                            <td class="border border-gray-600 px-4 py-2"><?= $row['OWCChargingCurrent'] ?></td>
+                            <td class="border border-gray-600 px-4 py-2"><?= $row['FPAChargingCurrent'] ?></td>
+                            <td class="border border-gray-600 px-4 py-2"><?= $row['HybridChargingCurrent'] ?></td>
+                            <td class="border border-gray-600 px-4 py-2"><?= $row['BatteryVoltage'] ?></td>
+                            <td class="border border-gray-600 px-4 py-2"><?= $row['WindSpeed'] ?></td>
+                            <td class="border border-gray-600 px-4 py-2"><?= $row['Wavelength'] ?></td>
+                            <td class="border border-gray-600 px-4 py-2"><?= $row['dateTime'] ?></td>
+                        </tr>
+                    <?php endwhile; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- jQuery & DataTables Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#myDataTable').DataTable({
+                "order": [[11, "desc"]], // Sort by Date Time
+                "paging": true,
+                "searching": true,
+                "info": true,
+                "columnDefs": [
+                    { "orderable": false, "targets": 0 } // Disable sorting for the sequential # column
+                ]
+            });
+        });
+    </script>
+
+</body>
+</html>

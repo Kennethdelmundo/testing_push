@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Layout</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: #1F2336;
+            font-family: 'Poppins', sans-serif;
+        }
+        .font-black {
+            font-weight: 900;
+        }
+        .progress {
+            position: relative;
+            margin: 4px auto;
+            text-align: center;
+            width: 180px;
+            height: 90px;
+        }
+        .barOverflow {
+            position: relative;
+            overflow: hidden;
+            width: 180px;
+            height: 90px;
+            margin-bottom: -14px;
+        }
+        .bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            box-sizing: border-box;
+            border: 10px solid #eee;
+            border-bottom-color: #0bf;
+            border-right-color: #0bf;
+        }
+    </style>
+    <script>
+        function updateDateTime() {
+            const now = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+            const dateTimeString = now.toLocaleDateString('en-US', options);
+            document.getElementById('dateTime').textContent = dateTimeString;
+        }
+        setInterval(updateDateTime, 1000);
+    </script>
+</head>
+<body class="bg-gray-100 p-6" style="background-color: #1F2336;">
+    <div class="container mx-auto px-5">
+        <!-- Project Title -->
+        <div class="text-white text-4xl font-bold mb-2">Project Title</div>
+        <!-- Real-time Date and Time -->
+        <div id="dateTime" class="text-white text-xl mb-4"></div>
+    </div>
+    <div class="container mx-auto px-5 flex justify-center">
+        <div class="w-4/5">
+            <!-- 1st row with 2 cards -->
+            <div class="grid grid-cols-5 gap-4 mb-4">
+                <div class="text-white p-2 rounded-lg shadow-lg h-36 col-span-2 flex flex-col justify-between" style="background-color: #499DCC;">
+                    <div>Wind Speed</div>
+                    <div class="text-center text-5xl my-auto font-black">15 m/s</div>
+                </div>
+                <div class="text-white p-2 rounded-lg shadow-lg h-36 col-span-3 flex flex-col justify-between" style="background-color: #499DCC;">
+                    <div>Wave Length</div>
+                    <div class="text-center text-5xl my-auto font-black">20 m</div>
+                </div>
+            </div>
+            <!-- 2nd row label -->
+            <div class="text-white text-2xl font-semibold mb-2">Oscillating Water Column</div>
+            <!-- 2nd row with 3 cards -->
+            <div class="grid grid-cols-3 gap-4 mb-4">
+                <div class=" p-2 rounded-lg shadow-lg h-32 flex flex-col justify-between" style="background-color: #97C03F; color: #FEEF69;">
+                    <div>Generated Voltage</div>
+                    <div class="text-center text-5xl my-auto font-black">220 V</div>
+                </div>
+                <div class="p-2 rounded-lg shadow-lg h-32 flex flex-col justify-between " style="background-color: #97C03F; color: #FEEF69;">
+                    <div>Generated Current</div>
+                    <div class="text-center text-5xl my-auto font-black">10 A</div>
+                </div>
+                <div class="p-2 rounded-lg shadow-lg h-32 flex flex-col justify-between" style="background-color: #97C03F; color: #FEEF69;">
+                    <div>Charging Current</div>
+                    <div class="text-center text-5xl my-auto font-black">5 A</div>
+                </div>
+            </div>
+            <!-- 3rd row label -->
+            <div class="text-white text-2xl font-semibold mb-2">Two Point Absorber</div>
+            <!-- 3rd row with 3 cards -->
+            <div class="grid grid-cols-3 gap-4 mb-4">
+                <div class="text-white p-2 rounded-lg shadow-lg h-32 flex flex-col justify-between" style="background-color: #E7876E; color: #FBF397;">
+                    <div>Generated Voltage</div>
+                    <div class="text-center text-5xl my-auto font-black">230 V</div>
+                </div>
+                <div class="text-white p-2 rounded-lg shadow-lg h-32 flex flex-col justify-between" style="background-color: #E7876E; color: #FBF397;">
+                    <div>Generated Current</div>
+                    <div class="text-center text-5xl my-auto font-black">12 A</div>
+                </div>
+                <div class="text-white p-2 rounded-lg shadow-lg h-32 flex flex-col justify-between" style="background-color: #E7876E; color: #FBF397;">
+                    <div>Charging Current</div>
+                    <div class="text-center text-5xl my-auto font-black">6 A</div>
+                </div>
+            </div>
+            <!-- 4th row with 2 cards -->
+            <div class="grid grid-cols-5 gap-4">
+                <div class="text-white p-2 rounded-lg shadow-lg h-36 col-span-3 flex flex-col justify-center items-center" style="background-color: #8D72EF;">
+
+                    <div class="progress">
+                        <div class="barOverflow">
+                            <div class="bar"></div>
+                        </div>
+                        <span class=" text-4xl mb-auto font-black">56.5</span>%
+                    </div>
+                </div>
+                <div class="text-white p-2 rounded-lg shadow-lg h-36 col-span-2 flex flex-col justify-between" style="background-color: #8D72EF;">
+                    <div>Hybrid Charging Current</div>
+                    <div class="text-center text-5xl my-auto font-black">8 A</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    $(".progress").each(function(){
+        var $bar = $(this).find(".bar");
+        var $val = $(this).find("span");
+        var perc = parseInt($val.text(), 10);
+
+        $({p:0}).animate({p:perc}, {
+            duration: 3000,
+            easing: "swing",
+            step: function(p) {
+                $bar.css({
+                    transform: "rotate("+ (45+(p*1.8)) +"deg)", // 100%=180° so: ° = % * 1.8
+                    // 45 is to add the needed rotation to have the green borders at the bottom
+                });
+                $val.text(p|0);
+            }
+        });
+    });
+</script>
+</body>
+</html>
